@@ -110,8 +110,12 @@ predres_xts = xts(predres, order.by = as.Date(cpi_df$DATE[idxstseq]))
 dygraph(predres_xts)
 
 # forecast for next time point
-fcst_cpi = predict(cpi_lm, cpi_df[nrow(cpi_df),])
+fcst_cpi = predict(cpi_lm, data.frame(CPIAUCSL_lag = cpi_df$CPIAUCSL[nrow(cpi_df)]))
 fcst_cpi
+
+# % change in CPI from one year ago
+cpi_1yrago = cpi_df$CPIAUCSL[cpi_df$DATE == "2016-04-01"]
+(fcst_cpi - cpi_1yrago)*100/cpi_1yrago
 
 #'
 #' The methodology for other series follows the same as for the CPI series
@@ -156,8 +160,11 @@ summary(predres)
 predres_xts = xts(predres, order.by = as.Date(payems_df$DATE[idxstseq]))
 dygraph(predres_xts)
 
-fcst_payems = predict(payems_lm, payems_df[nrow(payems_df),])
+fcst_payems = predict(payems_lm, data.frame(PAYEMS_lag = payems_df$PAYEMS[nrow(payems_df)]))
 fcst_payems
+
+# change in employment
+fcst_payems - payems_df$PAYEMS[nrow(payems_df)]
 
 #---------------Fcst GDPC1 -----------------------
 
@@ -199,8 +206,11 @@ summary(predres)
 predres_xts = xts(predres, order.by = as.Date(gdp_df$DATE[idxstseq]))
 dygraph(predres_xts)
 
-fcst_gdp = predict(gdp_lm, gdp_df[nrow(gdp_df),])
+fcst_gdp = predict(gdp_lm, data.frame(GDPC1_lag = gdp_df$GDPC1[nrow(gdp_df)]))
 fcst_gdp
+
+# real GDP growth rate
+(fcst_gdp - gdp_df$GDPC1[nrow(gdp_df)])*100/gdp_df$GDPC1[nrow(gdp_df)]
 
 #---------------Fcst UNRATE -----------------------
 
@@ -242,7 +252,7 @@ summary(predres)
 predres_xts = xts(predres, order.by = as.Date(unrate_df$DATE[idxstseq]))
 dygraph(predres_xts)
 
-fcst_unrate = predict(unrate_lm, unrate_df[nrow(unrate_df),])
+fcst_unrate = predict(unrate_lm, data.frame(UNRATE_lag = unrate_df$UNRATE[nrow(unrate_df)]))
 fcst_unrate
 
 #' ### Session Info
