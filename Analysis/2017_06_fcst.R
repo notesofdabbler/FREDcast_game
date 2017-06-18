@@ -164,7 +164,7 @@ fcst_payems = predict(payems_lm, data.frame(PAYEMS_lag = payems_df$PAYEMS[nrow(p
 fcst_payems
 
 # change in employment
-fcst_payems - payems_df$PAYEMS[nrow(payems_df)]
+(fcst_payems - payems_df$PAYEMS[nrow(payems_df)])*1000
 
 #---------------Fcst GDPC1 -----------------------
 
