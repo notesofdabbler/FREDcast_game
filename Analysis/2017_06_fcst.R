@@ -1,7 +1,7 @@
 #' ---
 #' title: FREDcast game attempt
 #' author: Notesofdabbler
-#' date: April 15, 2017
+#' date: June 18, 2017
 #' always_allow_html: yes
 #' ---
 #' 
@@ -21,10 +21,10 @@ library(ggplot2)
 #
 # Everything except GDPC1 is monthly data (GDPC1 is quarterly)
 
-cpi_df = read.csv("../data/CPIAUCSL.csv", stringsAsFactors = FALSE)
-gdp_df = read.csv("../data/GDPC1.csv", stringsAsFactors = FALSE)
-payems_df = read.csv("../data/PAYEMS.csv", stringsAsFactors = FALSE)
-unrate_df = read.csv("../data/UNRATE.csv", stringsAsFactors = FALSE)
+cpi_df = read.csv("data/CPIAUCSL.csv", stringsAsFactors = FALSE)
+gdp_df = read.csv("data/GDPC1.csv", stringsAsFactors = FALSE)
+payems_df = read.csv("data/PAYEMS.csv", stringsAsFactors = FALSE)
+unrate_df = read.csv("data/UNRATE.csv", stringsAsFactors = FALSE)
 
 # convert data to xts format
 cpi = xts(cpi_df[,2], order.by = as.Date(cpi_df[,1]))
@@ -69,7 +69,7 @@ ggplot(data = cpi_df, aes(x = CPIAUCSL_lag, y = CPIAUCSL)) + geom_point() + them
 
 #
 # Check prediction error by running a model that covers a sliding 12 month period
-# covering 24 instances starting with "2017-02-01" (second last time point) and going back
+# covering 24 instances starting with "2017-04-01" (second last time point) and going back
 # 
 #
 
@@ -114,7 +114,7 @@ fcst_cpi = predict(cpi_lm, data.frame(CPIAUCSL_lag = cpi_df$CPIAUCSL[nrow(cpi_df
 fcst_cpi
 
 # % change in CPI from one year ago
-cpi_1yrago = cpi_df$CPIAUCSL[cpi_df$DATE == "2016-04-01"]
+cpi_1yrago = cpi_df$CPIAUCSL[cpi_df$DATE == "2016-06-01"]
 (fcst_cpi - cpi_1yrago)*100/cpi_1yrago
 
 #'
@@ -132,7 +132,7 @@ ggplot(data = payems_df, aes(x = PAYEMS_lag, y = PAYEMS)) + geom_point() + theme
 
 
 # Check prediction error by running a 12 month horizon for 24 ending dates 
-# starting with "2017-02-01" (second last time point) and going back
+# starting with "2017-04-01" (second last time point) and going back
 #
 
 thor = 12 # pick time horizon - 12 months
@@ -224,7 +224,7 @@ ggplot(data = unrate_df, aes(x = UNRATE_lag, y = UNRATE)) + geom_point() + theme
 
 
 # Check prediction error by running a 12 month horizon for 24 ending dates 
-# starting with "2017-02-01" (second last time point) and going back
+# starting with "2017-04-01" (second last time point) and going back
 #
 
 thor = 12 # pick time horizon - 12 qtrs
